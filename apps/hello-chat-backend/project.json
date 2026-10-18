@@ -6,80 +6,57 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/apps/hello-chat-backend"],
       "defaultConfiguration": "production",
       "options": {
-        "platform": "node",
-        "outputPath": "dist/apps/hello-chat-backend",
-        "format": ["cjs"],
-        "bundle": false,
-        "main": "apps/hello-chat-backend/src/main.ts",
-        "tsConfig": "apps/hello-chat-backend/tsconfig.app.json",
-        "assets": ["apps/hello-chat-backend/src/assets"],
-        "generatePackageJson": true,
-        "esbuildOptions": {
-          "sourcemap": true,
-          "outExtension": {
-            ".js": ".js"
-          }
-        }
-      },
-      "configurations": {
-        "development": {},
-        "production": {
-          "esbuildOptions": {
-            "sourcemap": false,
-            "outExtension": {
-              ".js": ".js"
-            }
-          }
-        }
-      }
-    },
-    "prune-lockfile": {
-      "dependsOn": ["build"],
-      "cache": true,
-      "executor": "@nx/js:prune-lockfile",
-      "outputs": [
-        "{workspaceRoot}/dist/apps/hello-chat-backend/package.json",
-        "{workspaceRoot}/dist/apps/hello-chat-backend/package-lock.json"
-      ],
-      "options": {
-        "buildTarget": "build"
-      }
-    },
-    "copy-workspace-modules": {
-      "dependsOn": ["build"],
-      "cache": true,
-      "outputs": [
-        "{workspaceRoot}/dist/apps/hello-chat-backend/workspace_modules"
-      ],
-      "executor": "@nx/js:copy-workspace-modules",
-      "options": {
-        "buildTarget": "build"
-      }
-    },
-    "prune": {
-      "dependsOn": ["prune-lockfile", "copy-workspace-modules"],
-      "executor": "nx:noop"
-    },
-    "serve": {
-      "continuous": true,
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
-      "dependsOn": ["build"],
-      "options": {
-        "buildTarget": "hello-chat-backend:build",
-        "runBuildTargetDependencies": false
+        "cwd": "apps/hello-chat-backend",
+        "command": "sls package"
       },
       "configurations": {
         "development": {
-          "buildTarget": "hello-chat-backend:build:development"
+          "command": "sls package --package=../../dist/apps/hello-chat-backend --stage=development"
         },
         "production": {
-          "buildTarget": "hello-chat-backend:build:production"
+          "command": "sls package --package=../../dist/apps/hello-chat-backend --stage=production"
         }
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "options": {
+        "cwd": "apps/hello-chat-backend",
+        "command": "sls offline"
+      },
+      "configurations": {
+        "development": { "command": "sls offline --stage=development" },
+        "production": { "command": "sls offline --stage=production" }
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "options": {
+        "cwd": "apps/hello-chat-backend",
+        "command": "sls deploy"
+      },
+      "configurations": {
+        "development": { "command": "sls deploy --stage=development" },
+        "production": { "command": "sls deploy --stage=production" }
+      },
+      "dependsOn": [{ "target": "build" }]
+    },
+    "destroy": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "options": {
+        "cwd": "apps/hello-chat-backend",
+        "command": "sls remove"
+      },
+      "configurations": {
+        "development": { "command": "sls remove --stage=development" },
+        "production": { "command": "sls remove --stage=production" }
       }
     },
     "test": {
@@ -88,7 +65,8 @@
       "options": {
         "jestConfig": "apps/hello-chat-backend/jest.config.cts",
         "passWithNoTests": true
-      }
+      },
+      "configuration": { "ci": { "maxWorkers": 1 } }
     }
   }
 }

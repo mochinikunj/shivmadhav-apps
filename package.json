@@ -2,7 +2,14 @@
   "name": "@shivmadhav-apps/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "format": "nx format:write",
+    "hello-chat-backend:build": "nx run hello-chat-backend:build",
+    "hello-chat-backend:serve": "nx run hello-chat-backend:serve",
+    "hello-chat-backend:deploy": "nx run hello-chat-backend:deploy",
+    "hello-chat-backend:test": "nx run hello-chat-backend:test",
+    "hello-chat-backend:destroy": "nx run hello-chat-backend:destroy"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~22.1.0",
