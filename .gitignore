@@ -60,3 +60,10 @@ npm-debug.*
 *.orig.*
 web-build/
 cache/
+
+# serverless files
+.serverless
+undefined
+
+# jest files
+test-output
