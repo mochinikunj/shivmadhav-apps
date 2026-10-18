@@ -1,8 +1,18 @@
-export const graphqlHandler = async (event) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v4.0! Your function executed successfully!',
-    }),
-  };
-};
+import { ApolloServer } from '@apollo/server';
+import {
+  startServerAndCreateLambdaHandler,
+  handlers,
+} from '@as-integrations/aws-lambda';
+import { typeDefs, resolvers } from './graphql';
+import { ENVIRONMENTS } from './configs/common';
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  introspection: process.env.NODE_ENV !== ENVIRONMENTS.PROD,
+});
+
+export const graphqlHandler = startServerAndCreateLambdaHandler(
+  server,
+  handlers.createAPIGatewayProxyEventV2RequestHandler(),
+);

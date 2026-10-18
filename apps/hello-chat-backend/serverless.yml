@@ -1,13 +1,38 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: anytools
+org: shivmadhav
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: hello-chat-backend
+
+plugins:
+  - serverless-offline
 
 provider:
   name: aws
   runtime: nodejs24.x
   architecture: arm64
+  stage: ${opt:stage, 'development'}
+  region: ${opt:region, 'ap-south-1'}
+  environment:
+    NODE_ENV: ${sls:stage}
+    IS_PRODUCTION: ${self:custom.config.IS_PRODUCTION}
+    SERVICE_NAME: ${self:service}
+
+custom:
+  env:
+    development: 'development'
+    production: 'production'
+  config: ${file(env/${sls:stage}-${self:provider.region}.yml)}
+  serverless-offline:
+    httpPort: 4000
+    noPrependStageInUrl: true
+    prefix: ${sls:stage}
+    noAuth: true
 
 functions:
   graphql:
     handler: src/handler.graphqlHandler
+    memorySize: 128
+    events:
+      - httpApi:
+          path: /graphql
+          method: POST
