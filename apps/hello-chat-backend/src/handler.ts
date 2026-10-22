@@ -4,7 +4,8 @@ import {
   handlers,
 } from '@as-integrations/aws-lambda';
 import { typeDefs, resolvers } from './graphql';
-import { ENVIRONMENTS } from './configs/common';
+import { ENVIRONMENTS } from './configs';
+import { authMiddleware, createContext } from './middlewares';
 
 const server = new ApolloServer({
   typeDefs,
@@ -15,4 +16,8 @@ const server = new ApolloServer({
 export const graphqlHandler = startServerAndCreateLambdaHandler(
   server,
   handlers.createAPIGatewayProxyEventV2RequestHandler(),
+  {
+    middleware: [authMiddleware],
+    context: createContext,
+  },
 );
