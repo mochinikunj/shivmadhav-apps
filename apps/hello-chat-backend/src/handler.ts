@@ -4,7 +4,7 @@ import {
   handlers,
 } from '@as-integrations/aws-lambda';
 import { typeDefs, resolvers } from './graphql';
-import { ENVIRONMENTS } from './configs';
+import { ENVIRONMENTS } from '@shivmadhav-apps/configs';
 import { authMiddleware, createContext } from './middlewares';
 
 const server = new ApolloServer({
