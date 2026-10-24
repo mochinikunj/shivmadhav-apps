@@ -17,7 +17,8 @@
     "paths": {
       "@shivmadhav-apps/configs": ["./libs/configs/src/index.ts"],
       "@shivmadhav-apps/middlewares": ["./libs/middlewares/src/index.ts"],
-      "@shivmadhav-apps/errors": ["./libs/errors/src/index.ts"]
+      "@shivmadhav-apps/errors": ["./libs/errors/src/index.ts"],
+      "@shivmadhav-apps/common": ["./libs/common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

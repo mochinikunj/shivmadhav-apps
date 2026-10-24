@@ -3,8 +3,7 @@ import {
   startServerAndCreateLambdaHandler,
   handlers,
 } from '@as-integrations/aws-lambda';
-import { authMiddleware } from './middlewares';
-import { createContext } from './context';
+import { authMiddleware, createContext } from '@shivmadhav-apps/middlewares';
 
 export const getGraphQLHandler = (server: ApolloServer<BaseContext>) => {
   return startServerAndCreateLambdaHandler(

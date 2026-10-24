@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { typeDefs, resolvers } from './graphql';
 import { ENVIRONMENTS } from '@shivmadhav-apps/configs';
-import { getGraphQLHandler } from '@shivmadhav-apps/middlewares';
+import { getGraphQLHandler } from '@shivmadhav-apps/common';
 
 const server = new ApolloServer({
   typeDefs,

@@ -1,1 +1,1 @@
-export * from './health-check';
+export * from './get-user-query';
