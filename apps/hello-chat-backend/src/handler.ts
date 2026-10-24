@@ -1,10 +1,7 @@
 import { ApolloServer } from '@apollo/server';
-import {
-  startServerAndCreateLambdaHandler,
-  handlers,
-} from '@as-integrations/aws-lambda';
 import { typeDefs, resolvers } from './graphql';
-import { ENVIRONMENTS } from './configs/common';
+import { ENVIRONMENTS } from '@shivmadhav-apps/configs';
+import { getGraphQLHandler } from '@shivmadhav-apps/common';
 
 const server = new ApolloServer({
   typeDefs,
@@ -12,7 +9,4 @@ const server = new ApolloServer({
   introspection: process.env.NODE_ENV !== ENVIRONMENTS.PROD,
 });
 
-export const graphqlHandler = startServerAndCreateLambdaHandler(
-  server,
-  handlers.createAPIGatewayProxyEventV2RequestHandler(),
-);
+export const graphqlHandler = getGraphQLHandler(server);

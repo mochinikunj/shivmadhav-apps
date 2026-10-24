@@ -61,12 +61,11 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
+      "defaultConfiguration": "ci",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/hello-chat-backend/jest.config.cts",
-        "passWithNoTests": true
-      },
-      "configuration": { "ci": { "maxWorkers": 1 } }
+        "jestConfig": "apps/hello-chat-backend/jest.config.cts"
+      }
     }
   }
 }
