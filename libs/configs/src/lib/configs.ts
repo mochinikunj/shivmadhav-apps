@@ -9,3 +9,9 @@ enum ENV_VAR_NAMES {
 
 export const SERVICE_NAME =
   process.env[ENV_VAR_NAMES.SERVICE_NAME] || ENV_VAR_NAMES.SERVICE_NAME;
+
+export enum HEADERS {
+  AUTH = 'Authorization',
+  AUTH_SMALL = 'authorization',
+  AUTH_ERROR = 'x-middleware-auth-error',
+}
